@@ -17,7 +17,7 @@ command below to create a list of IP addresses connected to the server,
 along with their total number of connections. It is one of the simplest
 and easiest to install solutions at the software level.
 
-ss -Hntu | awk '{print $6}' | sort | uniq -c | sort -nr
+ss -ntu | awk '!/Address/ {print $6}' | sort | uniq -c | sort -nr
 
 IP addresses with over a pre-configured number of connections are
 automatically blocked in the server's firewall, which can be direct
@@ -47,7 +47,7 @@ ipfw, iptables, or Advanced Policy Firewall (APF).
 As root user execute the following commands:
 
 ```shell
-wget https://github.com/jgmdev/ddos-deflate/archive/master.zip
+wget https://github.com/MarcelFox/ddos-deflate/archive/master.zip
 unzip master.zip
 cd ddos-deflate-master
 ./install.sh
