@@ -263,7 +263,7 @@ get_connections()
     # Find all connections
     if [ "$2" = "" ]; then
         if ! $SS_MISSING; then
-            ss -Hntu"$1" \
+            ss -ntu"$1" \
                 state $(echo "$CONN_STATES" | sed 's/:/ state /g') | \
                 # Fix possible ss bug
                 sed -E "s/(tcp|udp)/\\1 /g"
@@ -315,7 +315,7 @@ ban_incoming_and_outgoing()
     # Find all connections
     get_connections | \
         # Extract the client ip
-        awk '{print $6}' | \
+        awk '!/Address/ {print $6}' | \
         # Strip port and [ ] brackets
         sed -E "s/\\[//g; s/\\]//g; s/:[0-9]+$//g" | \
         # Only leave non whitelisted, we add ::1 to ensure -v works for ipv6
